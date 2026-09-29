@@ -1,0 +1,38 @@
+<aside class="w-64 bg-white border-r border-gray-100 hidden md:block min-h-screen p-4 flex-shrink-0">
+    <div class="mb-8 mt-2 px-2">
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Menu Utama</span>
+    </div>
+    <nav class="space-y-1">
+        <a href="{% url 'forecast:dashboard' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.view_name == 'forecast:dashboard' %}bg-green-100 text-primary{% else %}text-gray-600 hover:bg-green-50 hover:text-primary{% endif %} transition">
+            <span class="font-medium">Dasbor</span>
+        </a>
+        <a href="{% url 'sales:input_data' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.view_name == 'sales:input_data' %}bg-green-100 text-primary{% else %}text-gray-600 hover:bg-green-50 hover:text-primary{% endif %} transition">
+            <span class="font-medium">Input Data</span>
+        </a>
+        <a href="{% url 'forecast:variables' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.view_name == 'forecast:variables' %}bg-green-100 text-primary{% else %}text-gray-600 hover:bg-green-50 hover:text-primary{% endif %} transition">
+            <span class="font-medium">Variabel Besok</span>
+        </a>
+        <a href="{% url 'sales:history' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.view_name == 'sales:history' %}bg-green-100 text-primary{% else %}text-gray-600 hover:bg-green-50 hover:text-primary{% endif %} transition">
+            <span class="font-medium">Riwayat & Insight</span>
+        </a>
+        <a href="{% url 'notifications:list' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.view_name == 'notifications:list' %}bg-green-100 text-primary{% else %}text-gray-600 hover:bg-green-50 hover:text-primary{% endif %} transition">
+            <span class="font-medium">Notifikasi</span>
+        </a>
+    </nav>
+    <div class="mb-8 mt-8 px-2">
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Pengaturan</span>
+    </div>
+    <nav class="space-y-1">
+        <a href="{% url 'business:manage_menus' %}" class="flex items-center gap-3 px-3 py-2 rounded-lg {% if request.resolver_match.view_name == 'business:manage_menus' %}bg-green-100 text-primary{% else %}text-gray-600 hover:bg-green-50 hover:text-primary{% endif %} transition">
+            <span class="font-medium">Atur Menu</span>
+        </a>
+        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-gray-400 cursor-not-allowed">
+            <span class="font-medium">Integrasi POS</span>
+            <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-bold">SOON</span>
+        </a>
+        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-gray-400 cursor-not-allowed">
+            <span class="font-medium">Langganan</span>
+            <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-bold">SOON</span>
+        </a>
+    </nav>
+</aside>

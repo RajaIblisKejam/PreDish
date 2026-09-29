@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100 mt-10">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Laporan Upload Data</h1>
+    
+    <div class="grid grid-cols-3 gap-4 mb-8">
+        <div class="bg-gray-50 p-4 rounded text-center">
+            <div class="text-sm text-gray-500 font-medium">Total Baris</div>
+            <div class="text-2xl font-bold text-gray-800">{{ total }}</div>
+        </div>
+        <div class="bg-green-50 p-4 rounded text-center border border-green-100">
+            <div class="text-sm text-green-600 font-medium">Berhasil</div>
+            <div class="text-2xl font-bold text-green-700">{{ success }}</div>
+        </div>
+        <div class="bg-red-50 p-4 rounded text-center border border-red-100">
+            <div class="text-sm text-red-600 font-medium">Gagal</div>
+            <div class="text-2xl font-bold text-red-700">{{ errors|length }}</div>
+        </div>
+    </div>
+    
+    {% if errors %}
+    <h2 class="text-lg font-bold text-gray-800 mb-3">Detail Error</h2>
+    <div class="bg-red-50 border border-red-100 rounded-lg p-4 max-h-96 overflow-y-auto">
+        <ul class="space-y-2 text-sm text-red-700">
+            {% for err in errors %}
+            <li>• {{ err }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="mt-8">
+        <a href="{% url 'sales:input_data' %}" class="bg-primary text-white font-medium px-6 py-2 rounded hover:bg-green-700 transition">Kembali ke Input Data</a>
+    </div>
+</div>
+{% endblock %}

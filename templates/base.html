@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PreDish - Dari Insting ke Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#16a34a', }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col font-sans">
+    
+    {% include 'partials/navbar.html' %}
+    {% include 'partials/messages.html' %}
+
+    <div class="flex flex-grow">
+        {% if user.is_authenticated %}
+            {% if user.businesses.first and user.businesses.first.onboarding_done %}
+                {% include 'partials/sidebar.html' %}
+            {% endif %}
+        {% endif %}
+        
+        <main class="flex-grow container mx-auto px-4 py-8">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800">Riwayat & Insight</h1>
+        <p class="text-gray-500 text-sm">Lihat data produksi dan penjualan historis</p>
+    </div>
+    <div>
+        <a href="{% url 'sales:history_export' %}?{{ request.GET.urlencode }}" class="bg-white border border-gray-300 text-gray-700 font-medium px-4 py-2 rounded hover:bg-gray-50 transition flex items-center gap-2">
+            Ekspor Excel
+        </a>
+    </div>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+        <h2 class="text-lg font-bold text-gray-800">Log Produksi vs Penjualan</h2>
+        
+        <form method="GET" class="flex gap-2">
+            <input type="date" name="start" value="{{ request.GET.start }}" class="border border-gray-300 rounded px-2 py-1 text-sm">
+            <input type="date" name="end" value="{{ request.GET.end }}" class="border border-gray-300 rounded px-2 py-1 text-sm">
+            <select name="menu" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                <option value="">Semua Menu</option>
+                {% for m in menus %}
+                <option value="{{ m.id }}" {% if request.GET.menu == m.id|stringformat:"s" %}selected{% endif %}>{{ m.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-gray-800 text-white px-3 py-1 rounded text-sm hover:bg-gray-700">Filter</button>
+        </form>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+            <thead class="bg-gray-50 text-gray-600 font-medium">
+                <tr>
+                    <th class="px-6 py-3">Tanggal</th>
+                    <th class="px-6 py-3">Menu</th>
+                    <th class="px-6 py-3 text-right">Diproduksi</th>
+                    <th class="px-6 py-3 text-right">Terjual</th>
+                    <th class="px-6 py-3 text-right">Sisa</th>
+                    <th class="px-6 py-3 text-center">Persentase Terjual</th>
+                    <th class="px-6 py-3 text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for row in page_obj %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">{{ row.date|date:"d M y" }}</td>
+                    <td class="px-6 py-4 font-medium">{{ row.menu }}</td>
+                    <td class="px-6 py-4 text-right font-medium text-gray-700">{{ row.prod }}</td>
+                    <td class="px-6 py-4 text-right font-bold text-primary">{{ row.sold }}</td>
+                    <td class="px-6 py-4 text-right text-red-500 font-medium">{{ row.left }}</td>
+                    <td class="px-6 py-4 text-center font-bold text-gray-700">{{ row.pct }}</td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <a href="{% url 'sales:edit_sale' row.id %}" class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 px-2 py-1 rounded transition text-xs font-medium">Edit</a>
+                            <form method="POST" action="{% url 'sales:delete_sale' row.id %}" class="m-0 inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data riwayat ini?');">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded transition text-xs font-medium">Hapus</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="px-6 py-8 text-center text-gray-500">Belum ada riwayat data yang sesuai.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% if page_obj.has_other_pages %}
+    <div class="p-4 border-t border-gray-100 flex justify-center gap-2">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border rounded hover:bg-gray-50">Sebelumnya</a>
+        {% endif %}
+        <span class="px-3 py-1 bg-gray-100 rounded text-gray-700">Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border rounded hover:bg-gray-50">Selanjutnya</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

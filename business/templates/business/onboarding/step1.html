@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100 mt-10">
+    <div class="text-sm font-medium text-gray-500 mb-2">Langkah 1 dari 3</div>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Profil Usaha</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="mt-6 flex justify-end">
+            <button type="submit" class="bg-primary text-white font-medium px-6 py-2 rounded hover:bg-green-700 transition">Selanjutnya</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
